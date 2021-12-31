@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Bounder:
     def __init__(self, o_y_bar_x, px, e_y_bar_x=None,
                  monotonicity=False, exogeneity=False, strong_exo=False):
@@ -48,7 +49,7 @@ class Bounder:
             E_{1|0}
         e1b1 : float
             E_{1|1}
-        e_y_bar_x : np.array of shape =(2,2)
+        e_y_bar_x : np.array[shape=(2, 2)]
             E_{y|x}
         exogeneity : bool
         monotonicity : bool
@@ -68,7 +69,7 @@ class Bounder:
             O_{1|0}
         o1b1 : float
             O_{1|1}
-        o_y_bar_x : np.array of shape =(2,2)
+        o_y_bar_x : np.array[shape=(2, 2)]
             O_{y|x}
         px : float
             P(x)
@@ -80,11 +81,11 @@ class Bounder:
 
         Parameters
         ----------
-        o_y_bar_x : np.array of shape =(2,2)
+        o_y_bar_x : np.array[shape=(2, 2)]
             O_{y|x}
-        px : np.array of shape =(2,)
+        px : np.array[shape=(2, )]
             P(x)
-        e_y_bar_x : np.array of shape =(2,), None
+        e_y_bar_x : np.array[shape=(2, )], None
             E_{y|x}
 
         monotonicity : bool
@@ -131,9 +132,9 @@ class Bounder:
 
         Parameters
         ----------
-        o_y_bar_x : np.array of shape =(2,2)
+        o_y_bar_x : np.array[shape=(2, 2)]
             O_{y|x}
-        px : np.array of shape =(2,)
+        px : np.array[shape=(2, )]
             P(x)
 
         Returns
@@ -164,7 +165,7 @@ class Bounder:
 
         Parameters
         ----------
-        e_y_bar_x : np.array of shape =(2,2)
+        e_y_bar_x : np.array[shape=(2, 2)]
             E_{y|x}
 
         Returns
@@ -186,7 +187,7 @@ class Bounder:
 
         Parameters
         ----------
-        mat : np.array of shape =(2,2)
+        mat : np.array[shape=(2, 2)]
 
         Returns
         -------
@@ -195,7 +196,7 @@ class Bounder:
         """
         assert mat.shape == (2, 2)
         assert (0 <= mat).all()
-        assert (mat <= 1).all() # can't check 0<=mat<=1 at once
+        assert (mat <= 1).all()  # can't check 0<=mat<=1 at once
         assert np.abs(sum(mat[:, 0]) - 1) < 1e-5
         assert np.abs(sum(mat[:, 1]) - 1) < 1e-5
 
@@ -206,7 +207,7 @@ class Bounder:
 
         Parameters
         ----------
-        vec : np.array of shape =(2,)
+        vec : np.array[shape=(2, )]
 
         Returns
         -------
@@ -296,7 +297,7 @@ class Bounder:
                 # pns bounds
                 pns_left = max(
                     0,
-                    e_star_bar_star -1,
+                    e_star_bar_star - 1,
                     self.e0b0 - py0,
                     self.e1b1 - py1)
                 pns_right = min(
@@ -333,7 +334,7 @@ class Bounder:
                 # pns bounds
                 pns_left = max(
                     0,
-                    o_star_bar_star -1)
+                    o_star_bar_star - 1)
                 pns_right = min(
                     self.o1b1,
                     self.o0b0)
@@ -407,17 +408,17 @@ class Bounder:
 
         Returns
         -------
-        np.array of shape =(2,2), np.array of shape =(2,2)
+        np.array[shape=(2, 2)], np.array[shape=(2, 2)]
 
             E_{y|x} lower bound, E_{y|x} upper bound
 
         """
-        left_bds_e_y_bar_x = np.zeros((2,2))
+        left_bds_e_y_bar_x = np.zeros((2, 2))
         right_bds_e_y_bar_x = np.zeros((2, 2))
         if not self.monotonicity:
             left_bds_e_y_bar_x[1, 1] = self.o11
             right_bds_e_y_bar_x[1, 1] = 1 - self.o10
-            left_bds_e_y_bar_x[1, 0] =  self.o01
+            left_bds_e_y_bar_x[1, 0] = self.o01
             right_bds_e_y_bar_x[1, 0] = 1 - self.o00
 
             # use if a <= x <= b then 1-b <= 1-x <= 1-a
@@ -430,7 +431,7 @@ class Bounder:
 
             left_bds_e_y_bar_x[1, 1] = py1
             right_bds_e_y_bar_x[1, 1] = 1 - self.o10
-            left_bds_e_y_bar_x[1, 0] =  self.o01
+            left_bds_e_y_bar_x[1, 0] = self.o01
             right_bds_e_y_bar_x[1, 0] = py1
 
             # use if a <= x <= b then 1-b <= 1-x <= 1-a
@@ -440,6 +441,7 @@ class Bounder:
             right_bds_e_y_bar_x[0, 0] = 1 - self.o01
 
         return left_bds_e_y_bar_x, right_bds_e_y_bar_x
+
     @staticmethod
     def get_joint_exp_probs_bds(bounder_m, bounder_f):
         """
@@ -457,7 +459,7 @@ class Bounder:
 
         Returns
         -------
-        np.array of shape =(2,2), np.array of shape =(2,2)
+        np.array[shape=(2, 2)], np.array[shape=(2, 2)]
 
             max(E_{y|x,m} lower bound, E_{y|x,f} lower bound)
             min(E_{y|x,f} upper bound, E_{y|x,f} upper bound)
@@ -467,9 +469,9 @@ class Bounder:
         left_f, right_f = bounder_f.get_exp_probs_bds()
 
         left = np.maximum(left_m, left_f)  # element-wise max
-        assert left.shape == (2,2)
+        assert left.shape == (2, 2)
         right = np.minimum(right_m, right_f)  # element-wise min
-        assert right.shape == (2,2)
+        assert right.shape == (2, 2)
         if (right-left >= 0).all():
             return left, right
         else:
@@ -518,29 +520,29 @@ class Bounder:
 
         Parameters
         ----------
-        left_bds_e_y_bar_x : np.array of shape=(2,2)
+        left_bds_e_y_bar_x : np.array[shape=(2, 2)]
             left (low) bounds for each element of E_{y|x}
-        right_bds_e_y_bar_x : np.array of shape=(2,2)
+        right_bds_e_y_bar_x : np.array[shape=(2, 2)]
             right (high) bounds for each element of E_{y|x}
 
         Returns
         -------
 
         """
-        print("E_{0|0}: %.6f <= %.6f <= %.6f"\
-            %(left_bds_e_y_bar_x[0, 0],
+        print("E_{0|0}: %.6f <= %.6f <= %.6f"
+            % (left_bds_e_y_bar_x[0, 0],
             0 if self.e0b0 is None else self.e0b0,
             right_bds_e_y_bar_x[0, 0]))
-        print("E_{0|1}: %.6f <= %.6f <= %.6f"\
-            %(left_bds_e_y_bar_x[0, 1],
+        print("E_{0|1}: %.6f <= %.6f <= %.6f"
+            % (left_bds_e_y_bar_x[0, 1],
             0 if self.e0b1 is None else self.e0b1,
             right_bds_e_y_bar_x[0, 1]))
-        print("E_{1|0}: %.6f <= %.6f <= %.6f"\
-            %(left_bds_e_y_bar_x[1, 0],
+        print("E_{1|0}: %.6f <= %.6f <= %.6f"
+            % (left_bds_e_y_bar_x[1, 0],
             0 if self.e1b0 is None else self.e1b0,
             right_bds_e_y_bar_x[1, 0]))
-        print("E_{1|1}: %.6f <= %.6f <= %.6f"\
-            %(left_bds_e_y_bar_x[1, 1],
+        print("E_{1|1}: %.6f <= %.6f <= %.6f"
+            % (left_bds_e_y_bar_x[1, 1],
             0 if self.e1b1 is None else self.e1b1,
             right_bds_e_y_bar_x[1, 1]))
         
@@ -551,7 +553,7 @@ class Bounder:
 
         Parameters
         ----------
-        pns3_bds : np.array of shape=(3,2)
+        pns3_bds : np.array[shape=(3, 2)]
 
         Returns
         -------
@@ -559,9 +561,10 @@ class Bounder:
 
         """
         
-        print("%.6f <= PNS <= %.6f" %(pns3_bds[0, 0], pns3_bds[0, 1]))
-        print("%.6f <= PN  <= %.6f" %(pns3_bds[1, 0], pns3_bds[1, 1]))
-        print("%.6f <= PS  <= %.6f" %(pns3_bds[2, 0], pns3_bds[2, 1]))
+        print("%.6f <= PNS <= %.6f" % (pns3_bds[0, 0], pns3_bds[0, 1]))
+        print("%.6f <= PN  <= %.6f" % (pns3_bds[1, 0], pns3_bds[1, 1]))
+        print("%.6f <= PS  <= %.6f" % (pns3_bds[2, 0], pns3_bds[2, 1]))
+
 
 if __name__ == "__main__":
     def main():
@@ -573,11 +576,7 @@ if __name__ == "__main__":
                                [.7, .27]])
         px_f = np.array([.3, .7])
         f = Bounder(o_y_bar_x_f, px_f,
-            e_y_bar_x=e_y_bar_x_f
-            # , monotonicity=True
-            # , exogeneity=True
-            #, strong_exo=True
-            )
+            e_y_bar_x=e_y_bar_x_f)
         f.print_all_probs()
         print("---------------------------")
         print("Check exp. data is within bds imposed by obs. data:")
@@ -609,11 +608,3 @@ if __name__ == "__main__":
         Bounder.print_pns3_bds(pns3_bds_m)
 
     main()
-
-
-
-
-
-
-
-    

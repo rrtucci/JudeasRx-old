@@ -13,6 +13,7 @@ BAD_EXP_PROBS = '<span style="color:red">Bad choices! :( The Experimental ' \
                 'Probabilities are inconsistent. Try alternative slider ' \
                 'positions.</span>'
 
+
 class Widgeter:
     def __init__(self):
         """
@@ -34,7 +35,7 @@ class Widgeter:
             list of 2 text boxes attached to self.exp_sliders
         good_obs_data : bool
             good observtional data
-        left_exp_probs_bds : np.array of shape (2,2)
+        left_exp_probs_bds : np.array[shape=(2, 2)]
             left (low) bounds for E_{y|x}
         monotonicity : bool
         obs_f_sliders : List[wid.FloatSlider]
@@ -47,11 +48,11 @@ class Widgeter:
             list of 8 text boxes attached to self.obs_m_sliders
         only_obs : bool
             Only Observational Probabilities, no Experimental ones
-        pns3_bds_f : np.array of shape=(3,2)
+        pns3_bds_f : np.array[shape=(3, 2)]
             bounder_f.get_pns3_bds()
-        pns3_bds_m : np.array of shape=(3,2)
+        pns3_bds_m : np.array[shape=(3, 2)]
             bounder_m.get_pns3_bds()
-        right_exp_probs_bds : np.array of shape (2,2)
+        right_exp_probs_bds : np.array[shape=(2, 2)]
             right (high) bounds for E_{y|x}
         strong_exogeneity : bool
 
@@ -169,10 +170,11 @@ class Widgeter:
             self.obs_f_sliders[1]: 'O_{1|1,f}',
             self.obs_f_sliders[2]: '\pi_{1,f}'
         }
-        exp_slider_to_latex={
+        exp_slider_to_latex = {
             self.exp_sliders[0]: 'E_{1|0}',
             self.exp_sliders[1]: 'E_{1|1}'
         }
+
         def color_it(g, latex_str):
             if g:
                 color = 'green'
@@ -194,6 +196,7 @@ class Widgeter:
             x.disabled = obs_green
             tbox.disabled = obs_green
             x.description = color_it(not obs_green, exp_slider_to_latex[x])
+
     def refresh_plot(self):
         """
         This method is a clever way of inducing the method wid.interactive()
@@ -213,7 +216,6 @@ class Widgeter:
             x.min += delta
             x.value += delta
 
-
     def set_exp_probs_bds(self):
         """
         This method asks class Bounder to merge the bounds for Experimental
@@ -231,6 +233,7 @@ class Widgeter:
             return False
         else:
             return True
+
     def set_exp_sliders_to_valid_values(self):
         """
         This method is used after set_exp_probs_bds() has been called
@@ -245,9 +248,9 @@ class Widgeter:
 
         diff = self.right_exp_probs_bds - self.left_exp_probs_bds
         assert (diff >= 0).all()
-        #set value of E_{1|i}
+        # set value of E_{1|i}
 
-        for i in [0,1]:
+        for i in [0, 1]:
             a, b = self.left_exp_probs_bds[1, i], \
                 self.right_exp_probs_bds[1, i]
             self.exp_sliders[i].disabled = True
@@ -302,11 +305,11 @@ class Widgeter:
         e1b1_slider = wid.widgets.FloatSlider(**slider_params)
         # order important, 1b0 before 1b1,
         # mnemonic 10 < 11
-        self.exp_sliders= [e1b0_slider, e1b1_slider]
+        self.exp_sliders = [e1b0_slider, e1b1_slider]
 
         header1 = wid.Label(value="Enter Observational Data\
             from a survey.")
-        header2= wid.Label("Then press the \
+        header2 = wid.Label("Then press the \
             'Add Experimental Data (RCT)' button\
             if you also have Experimental Data.")
         header3 = wid.Label(value=
@@ -319,6 +322,7 @@ class Widgeter:
             layout=wid.Layout(width='200px')
         )
         status_sign = wid.HTMLMath(value=GOOD_OBS_PROBS)
+
         def add_but_do(btn):
             if self.only_obs and self.good_obs_data:
                 self.refresh_slider_colors(obs_green=False)
@@ -333,6 +337,7 @@ class Widgeter:
         )
         out = wid.Output()
         display(out)
+
         def print_but_do(btn):
             with out:
                 print("###################################")
@@ -344,10 +349,11 @@ class Widgeter:
                 Bounder.print_pns3_bds(self.pns3_bds_f)
         print_but.on_click(print_but_do)
 
-        mono_but= wid.Checkbox(
+        mono_but = wid.Checkbox(
             value=self.monotonicity,
             description="Monotonicity",
             indent=False)
+
         def mono_but_do(change):
             new = change['new']
             self.monotonicity = new
@@ -357,10 +363,11 @@ class Widgeter:
                 self.refresh_plot()
         mono_but.observe(mono_but_do, names='value')
 
-        exo_but= wid.Checkbox(
+        exo_but = wid.Checkbox(
             value=self.exogeneity,
             description="Exogeneity",
             indent=False)
+
         def exo_but_do(change):
             new = change['new']
             self.exogeneity = new
@@ -375,6 +382,7 @@ class Widgeter:
             value=self.strong_exogeneity,
             description="Strong Exogeneity",
             indent=False)
+
         def strong_exo_but_do(change):
             new = change['new']
             self.strong_exogeneity = new
@@ -397,7 +405,7 @@ class Widgeter:
                 wid.jslink((x, 'value'), (tbox, 'value'))
                 vbox_list.append(wid.VBox([x, tbox]))
             return wid.HBox(vbox_list), tbox_list
-        constraints_box= wid.VBox([exo_but, strong_exo_but,
+        constraints_box = wid.VBox([exo_but, strong_exo_but,
                                    mono_but])
         cmd_box = wid.HBox([print_but, add_but, status_sign])
         obs_m_box, self.obs_m_tboxes = box_the_sliders(self.obs_m_sliders)
@@ -432,23 +440,23 @@ class Widgeter:
                 self.good_obs_data = True
                 status_sign.value = GOOD_OBS_PROBS +\
                 '<br>%.2f $\leq E_{1|0} \leq$ %.2f'\
-                    %(self.left_exp_probs_bds[1,0],
+                    % (self.left_exp_probs_bds[1, 0],
                     self.right_exp_probs_bds[1, 0]) +\
                 '<br>%.2f $\leq E_{1|1}\leq$ %.2f' \
-                    %(self.left_exp_probs_bds[1,1],
+                    % (self.left_exp_probs_bds[1, 1],
                     self.right_exp_probs_bds[1, 1])
 
         slider_dict = {
-            'o1b0_m_slider' : o1b0_m_slider,
-            'o1b1_m_slider' : o1b1_m_slider,
-            'px1_m_slider' : px1_m_slider,
-            'o1b0_f_slider' : o1b0_f_slider,
-            'o1b1_f_slider' : o1b1_f_slider,
-            'px1_f_slider' : px1_f_slider,
-            'e1b0_slider' : e1b0_slider,
-            'e1b1_slider' : e1b1_slider
+            'o1b0_m_slider': o1b0_m_slider,
+            'o1b1_m_slider': o1b1_m_slider,
+            'px1_m_slider': px1_m_slider,
+            'o1b0_f_slider': o1b0_f_slider,
+            'o1b1_f_slider': o1b1_f_slider,
+            'px1_f_slider': px1_f_slider,
+            'e1b0_slider': e1b0_slider,
+            'e1b1_slider': e1b1_slider
         }
         plot = wid.interactive_output(fun, slider_dict)
-        #interactive_plot.layout.height = '800px'
+        # interactive_plot.layout.height = '800px'
         self.refresh_slider_colors(obs_green=True)
         display(all_boxes, plot)
