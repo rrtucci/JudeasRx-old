@@ -25,5 +25,11 @@ The app considers the simple yet illustrative case of trying to prescribe a medi
 To do an Rx, one first allows the patients to take or not take the drug, according to their own discretion. Then one conducts a survey in which one collects info about who did or did not take the drug and whether they lived or died. This is called Observational Data (OD). Even though OD can be confounded, it serves to impose bounds on PNS, PN and PS. After the OD stage is completed, one can follow it up with a RCT (Randomized Control Experiment). In a RCT, patients must take or not take the drug as ordered by the doctor; no insubordination is tolerated. From the RCT, one collects Experimental Data (ED). The ED imposes tighter bounds on PNS, PN and PS than the bounds imposed by the OD alone.
 
 ## Mathematical Theory and Notation 
-The mathematical theory and notation are described in gory  but entertaining detail in the chapter entitled  “Personalized Treatment Effects” of my book Bayesuvius. That chapter is totally based on a paper by Tian and Pearl. My only contribution(?) was to change the notation to a more “personalized” notation. In case you don’t know, Bayesuvius is my free, open source book (about 560 pages) on Bayesian Networks and Causal Inference.
+The mathematical theory and notation are described in gory  but 
+entertaining detail in the chapter entitled  “Personalized Treatment 
+Effects” of my book Bayesuvius. That chapter is totally based on a paper by 
+Tian and Pearl. My only contribution(?) was to change the notation to a 
+more “personalized” notation. [Bayesuvius](https://qbnets.wordpress.com/2020/11/30/my-free-book-bayesuvius-on-bayesian-networks/) is my free, 
+open source book (about 560 pages so far) on Bayesian Networks and Causal 
+Inference.
 
