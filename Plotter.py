@@ -97,10 +97,10 @@ if __name__ == "__main__":
                                [.7, .27]])
         px_f = np.array([.3, .7])
         f = Bounder(o_y_bar_x_f, px_f, e_y_bar_x=e_y_bar_x_f)
-        left_bds_e_y_bar_x_f, right_bds_e_y_bar_x_f =\
-            f.get_exp_probs_bds()
-        pns3_bds_f = f.get_pns3_bds()
-        f.print_pns3_bds(pns3_bds_f)
+        f.set_exp_probs_bds()
+        f.print_exp_probs_bds(",f")
+        f.set_pns3_bds()
+        f.print_pns3_bds("_f")
         # MALE
         e_y_bar_x_m = np.array([[.79, .51],
                                 [.21, .49]])
@@ -108,11 +108,13 @@ if __name__ == "__main__":
                                 [.7, .7]])
         px_m = np.array([.3, .7])
         m = Bounder(o_y_bar_x_m, px_m, e_y_bar_x=e_y_bar_x_m)
-        left_bds_e_y_bar_x_m, right_bds_e_y_bar_x_m =\
-            m.get_exp_probs_bds()
-        m.print_exp_probs_bds(left_bds_e_y_bar_x_m, right_bds_e_y_bar_x_m)
-        pns3_bds_m = m.get_pns3_bds()
-        m.print_pns3_bds(pns3_bds_m)
+        m.set_exp_probs_bds()
+        m.print_exp_probs_bds(",m")
+        m.set_pns3_bds()
+        m.print_pns3_bds("_m")
+
+        pns3_bds_m= m.get_pns3_bds()
+        pns3_bds_f = f.get_pns3_bds()
         # call Plotter
         # thick_pns3_bds_m = Plotter.thicken_line(pns3_bds_m)
         # thick_pns3_bds_f = Plotter.thicken_line(pns3_bds_f)
@@ -122,4 +124,3 @@ if __name__ == "__main__":
                               pns3_bds_f)
 
     main2()
-    
