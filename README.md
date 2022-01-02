@@ -1,6 +1,6 @@
 # JudeasRX
 
-![JudeasRx screenshot](./images/JudeasRx-screenshot.jpg)
+![JudeasRx screenshot](images/JudeasRx-screenshot.jpg)
 
 ## Instructions
 * Read the references given in the **Theory and Notation** section 
